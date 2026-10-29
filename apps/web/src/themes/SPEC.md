@@ -18,7 +18,8 @@ this client, including operating-system color-scheme observation and same-appear
 theme = adding one `*.theme.json` file** — to `bundled/` (a PR + rebuild) or, for a user, to
 `~/.thinkrail/themes` (live, [[submodule-server-themes]]) — no code, contract, CSS, or test changes.
 
-Six manifests ship: the standard **Dark** and **Light** (the configured default and its pair, unchanged),
+Seven manifests ship: the standard **Dark** and **Light** (the configured default and its pair, unchanged),
+**Dracula** (the Dracula palette on the standard roles),
 **Minimal Dark** and **Minimal Light** (the quiet neutral surface hierarchy, restrained green accent and
 neutral `bubbleAccent` of the Minimal interface study, sharing the standard pair's syntax and terminal
 palettes), and the two High Contrast palettes with their stricter accessibility contract. Minimal is a
