@@ -15,6 +15,50 @@ create the tools it needs based on how you actually work.
 **Website:** [thinkrail.ai](https://thinkrail.ai/) · **Blog:** [thinkrail.ai/blog](https://thinkrail.ai/blog/) ·
 **Discord:** [thinkrail.ai/discord](https://thinkrail.ai/discord)
 
+> [!IMPORTANT]
+> **This fork adds a Claude Code CLI mode — the main difference from
+> [JetBrains/thinkrail](https://github.com/JetBrains/thinkrail).** Pick a **Claude Code** model in the chat
+> and each turn runs your own `claude` CLI headless, so a Claude Pro/Max subscription is used as **plan
+> usage instead of extra usage / API billing**, while you keep ThinkRail's chat view, workspaces, diffs and
+> terminals. See [Use ThinkRail with the Claude Code CLI](#use-thinkrail-with-the-claude-code-cli).
+
+## Use ThinkRail with the Claude Code CLI
+
+The `claude-code` provider runs every chat turn through `claude -p` in the chat's project folder and
+streams the result into the normal chat view. ThinkRail still owns the chat, its history and its title;
+the CLI owns the turn — its tools, permissions, your `CLAUDE.md`, settings and MCP servers.
+
+### Set it up
+
+1. Install the [Claude Code CLI](https://docs.claude.com/en/docs/claude-code) and make sure `claude` is
+   on your `PATH`.
+2. Run `claude` once and sign in with your Claude Pro/Max account (`/login`). You don't need to unset
+   `ANTHROPIC_API_KEY`: ThinkRail strips it (and `ANTHROPIC_AUTH_TOKEN`) from the CLI's environment so the
+   turn always bills your subscription.
+3. Run this fork from source — the official installers and release builds don't include the mode:
+
+   ```bash
+   git clone https://github.com/samuele-apiudigital/thinkrail-cli-claude-code
+   cd thinkrail-cli-claude-code
+   bun install
+   bun run dev           # opens the app in your browser
+   # or: bun run desktop:dev   # builds and opens the macOS/desktop app
+   ```
+
+4. Open a project, start a chat, open the model picker and choose **Claude Opus**, **Claude Sonnet** or
+   **Claude Haiku** under **claude-code**. The effort slider maps to the CLI's `--effort`.
+
+### How it differs from a regular chat
+
+- The CLI's tool calls show as text lines (`▸ Bash ls`) rather than tool cards, and it runs tools
+  without asking (`bypassPermissions`).
+- ThinkRail's own pi tools don't apply in these turns: the TODO plan, ask-user questions, visualize,
+  subagents, background commands and ThinkRail skills/MCP. The CLI uses your Claude Code setup instead.
+- A message sent while a turn runs becomes the next turn rather than steering the current one.
+- Switching a chat to Claude Code midway hands the earlier messages over once; turns taken by another
+  model later are not replayed into the CLI conversation.
+- Cost shows as $0 — usage is counted against your plan.
+
 ⭐ If you find ThinkRail useful, give it a star — it helps others discover it.
 
 <p align="center">
@@ -74,7 +118,8 @@ create the tools it needs based on how you actually work.
 - **Your providers, your credentials.** Sign in with [JetBrains AI](https://www.jetbrains.com/ai/) or
   connect any provider through `pi`'s own auth. ThinkRail has no accounts of its own. With the `claude`
   CLI installed, the **Claude Code** models run each chat turn through it, so a Claude Pro/Max
-  subscription is used as plan usage rather than API billing.
+  subscription is used as plan usage rather than API billing
+  ([details](#use-thinkrail-with-the-claude-code-cli)).
 - **Your pi setup.** ThinkRail reads your existing `pi` configuration (`~/.pi/agent`). To use another one
   — say a personal `~/.pi/agent-personal` — or to pass extra environment variables to the agent, terminals
   and MCP servers, set them in Settings → Environment; they apply on the next start. A variable you set
@@ -85,7 +130,7 @@ create the tools it needs based on how you actually work.
   Japanese, Simplified Chinese, and Spanish are built in. Add a language ThinkRail doesn't ship yet by
   dropping a translated `en.json` into `~/.thinkrail/locales` — it applies as you save. Agent replies and
   tool output stay as the agent wrote them.
-- **Your themes.** Settings → Appearance ships dark, light, minimal and high-contrast themes. Make your own
+- **Your themes.** Settings → Appearance ships dark, light, Dracula, minimal and high-contrast themes. Make your own
   by copying a bundled `*.theme.json`, changing its id and colors, and saving it to `~/.thinkrail/themes`.
 
 <picture>
