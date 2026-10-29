@@ -416,6 +416,20 @@ re-opened transcripts provider-valid.
     `createSession` registers a new host-owned session—not when an existing transcript reattaches—so peer
     frontends discover it without inheriting placement) +
     `setSessionDeletedPublisher` + `setSessionManagerFactory` seams.
+  - `claudeCodeProvider` — the `claude-code` native provider (registered on every runtime generation
+    before the initializer; available when `claude` is on `PATH`; models `opus`/`sonnet`/`haiku`, priced
+    0, pi thinking levels → `--effort`). A chat turn spawns `claude -p` (stream-json in/out) in the chat's
+    cwd with `--session-id`/`--resume` set to the pi session id, `bypassPermissions` (pi's own default
+    posture), and `ANTHROPIC_API_KEY`/`ANTHROPIC_AUTH_TOKEN` stripped so the CLI uses the subscription.
+    Only the user messages after the last assistant reply are sent; the first turn of a chat that switched
+    to Claude Code carries the earlier text transcript once. The whole CLI run becomes one assistant
+    message: thinking/text deltas stream through, the CLI's tool calls render as `▸ **Tool** \`detail\``
+    text lines (pi never sees or executes them), failed tool results as a quoted line, subagent
+    (`parent_tool_use_id`) output is dropped. Usage is the last top-level API call's. Requests without a
+    live chat cwd, and pi's compaction/branch summaries (`cacheRetention: "none"`), run toolless with
+    `--no-session-persistence` in the temp dir. Abort kills the process group. Trade-offs: no tool cards,
+    no pi tools/skills/extensions/MCP in those turns (the CLI uses the user's Claude Code setup instead),
+    and turns taken by another model in between are not replayed into the CLI session.
   - `oneshot` — one-shot LLM completions **without** an `AgentSession` (no tools/extensions/disk):
     `completeOnce(request)` picks a model from the shared runtime's authenticated set and dispatches a
     single `runtime.completeSimple()` — pi's canonical provider-agnostic request path, which resolves

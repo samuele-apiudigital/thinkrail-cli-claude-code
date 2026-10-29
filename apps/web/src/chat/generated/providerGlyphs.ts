@@ -45,6 +45,7 @@ export const PROVIDER_GLYPHS: Readonly<Record<string, readonly ProviderGlyphPath
 	"azure": glyph_azure,
 	"baseten": glyph_baseten,
 	"cerebras": glyph_cerebras,
+	"claude-code": glyph_claude,
 	"cloudflare-ai-gateway": glyph_cloudflare,
 	"cloudflare-workers-ai": glyph_cloudflare,
 	"deepseek": glyph_deepseek,

@@ -6,6 +6,7 @@ import {
 	SettingsManager,
 } from "@earendil-works/pi-coding-agent";
 import { logger } from "../log";
+import { claudeCodeProvider } from "./claudeCodeProvider";
 import { accountAvailableModels, type ModelAvailabilityRuntime } from "./modelAvailability";
 
 const log = logger("agent");
@@ -135,6 +136,7 @@ async function createRuntimeWithExtensions(
 ): Promise<PreparedRuntime> {
 	await advanceExtensionCacheGeneration();
 	const runtime = await createRuntimeOfflineByDefault();
+	runtime.registerNativeProvider(claudeCodeProvider);
 	await generationInitializer(runtime);
 	const providerStatus = captureProviderStatus(runtime);
 	const priorRegistrations = new Map(

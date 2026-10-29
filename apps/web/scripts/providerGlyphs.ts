@@ -19,6 +19,7 @@ export const GENERATED_GLYPHS_PATH = join(
 export const PROVIDER_GLYPH_SLUGS: Readonly<Record<string, string>> = {
 	anthropic: "claude",
 	"ant-ling": "claude",
+	"claude-code": "claude",
 	openai: "openai",
 	"openai-codex": "openai",
 	azure: "azure",

@@ -53,7 +53,9 @@ to move fast without losing control of what the agent did.
 Durable decisions every feature follows; [[architecture]] carries the structure that enforces them.
 
 - **pi is the only engine**, run in-process — no second runtime (no `claude-agent-sdk`). `pi` owns the
-  model registry, system prompt, skills/extensions, compaction, cost, and session state.
+  model registry, system prompt, skills/extensions, compaction, cost, and session state. Sole exception:
+  the `claude-code` provider, which delegates a chat turn to the user's `claude` CLI so a Claude
+  subscription is used as plan usage ([[submodule-server-agent]]).
 - **Influence by feeding, never by assembling.** Features shape the agent only through what they feed
   `pi` — prompt context, files, pi's own skills/extensions — and the flags a session starts with.
 - **Expose, don't recompute.** The host shows what `pi` reports rather than deriving its own copy.
@@ -134,6 +136,7 @@ What ThinkRail does, at product level; the linked spec owns the detail.
 Only these are excluded by decision. Anything neither listed above nor excluded here is open, not
 forbidden.
 
-- **A second agent runtime**, or any host-side agent loop or prompt assembly (see Principles).
+- **A second agent runtime**, or any host-side agent loop or prompt assembly (see Principles) — except the
+  `claude-code` provider's delegation to the `claude` CLI.
 - **ThinkRail accounts or a login UI.** Who may reach a host is decided by the network — Tailscale ACLs
   and device identity ([[architecture]]).

@@ -35,6 +35,9 @@ Clear, fractal module boundaries are a top-priority requirement:
 - The three rings are engine host (`packages/server` + `packages/shared`), typed wire
   (`packages/contracts`), and independently shippable UI (`apps/web`). `apps/cli` and `apps/desktop`
   are thin launchers over the same host.
+- One sanctioned exception: the `claude-code` pi provider (`packages/server/src/agent/claudeCodeProvider.ts`)
+  runs the user's `claude` CLI headless per turn so a Claude subscription is billed as plan usage. pi still
+  owns the session; the CLI owns that turn's tools, permissions and its own conversation.
 - Use only the `@earendil-works/*` package scope. `@mariozechner/*` is deprecated.
 
 ## Repo-wide invariants

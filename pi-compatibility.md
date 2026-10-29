@@ -134,6 +134,10 @@ registry-extension tools by mirroring Pi's private `_isActivatedOnRegistration` 
 re-runs the restore, reconcile after it too. **Removal gate:** a public Pi way to keep host-withheld tools
 apart from the recorded selection. Run the manager's restart regressions on upgrades.
 
+- **Claude Code compaction routing** — [[submodule-server-agent]], `claudeCodeProvider.ts`. pi's
+  compaction and branch summaries reuse the chat's `sessionId`, distinguishable from a chat turn only by
+  `cacheRetention: "none"`; the provider uses that to keep them out of the CLI's conversation.
+  **Removal gate:** pi tells a provider a request is a summary (or exposes the request purpose).
 - **Anthropic SSE framing patch** — [[submodule-server-agent]] (Provider stream framing),
   `patches/@earendil-works%2Fpi-ai@1.4.0.patch` on `dist/api/anthropic-messages.js`. Unpatched, two
   streams fail with the non-retryable "Could not parse Anthropic SSE event": a valid CRLF stream whose

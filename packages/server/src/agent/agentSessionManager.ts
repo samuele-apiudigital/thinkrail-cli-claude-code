@@ -75,6 +75,7 @@ import {
 } from "../persistence";
 import { trashFile } from "../trash";
 import { publishSessionResourcesChanged } from "./chatResources";
+import { setClaudeCodeSessionCwdResolver } from "./claudeCodeProvider";
 import {
 	disposeSessionChildren,
 	hasLiveSessionChildren,
@@ -185,6 +186,9 @@ interface Entry {
 }
 
 const sessions = new Map<string, Entry>();
+setClaudeCodeSessionCwdResolver((sessionId) =>
+	sessions.get(sessionId)?.session.sessionManager.getCwd(),
+);
 let sessionLifecycleGeneration = 0;
 const workspaceLifecycleGenerations = new Map<string, number>();
 const closingWorkspaces = new Map<string, number>();

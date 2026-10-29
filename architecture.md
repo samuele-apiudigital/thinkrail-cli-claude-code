@@ -452,7 +452,9 @@ dependency. This keeps test process drivers outside both launchers and the serve
   `@earendil-works/pi-coding-agent` is server-only — it never reaches `contracts`/`web`.
 - One id model: the UI tab id vs `session.sessionId` (the `AgentSession` id). No separate pi UUID.
 - The agent runs in-process with **no crash isolation** — wrap session calls and forward errors; a fatal
-  fault takes the whole host down (accepted tradeoff vs the subprocess RPC mode).
+  fault takes the whole host down (accepted tradeoff vs the subprocess RPC mode). The `claude-code` pi
+  provider is the one subprocess agent: it runs the `claude` CLI headless for a turn, behind pi's provider
+  seam, so a Claude subscription is used as plan usage ([[submodule-server-agent]]).
 - `pi` owns state and emits the truth; the host is a thin bridge — it **exposes** `pi`'s state through read
   methods (it does not recompute it) and forwards `pi`'s events as deltas. Clients **hydrate from the reads,
   then stream the deltas** — they hold only view state of their own.
